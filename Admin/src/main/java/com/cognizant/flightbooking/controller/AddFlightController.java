@@ -218,7 +218,7 @@ public class AddFlightController {
 	
 	//block flight
 	@PutMapping("/blockFlight/{flightNumber}")
-	public ResponseEntity<?> blockFlight(@PathVariable("flightNumber") Integer flightNumber,boolean block){
+	public ResponseEntity<?> blockFlight(@PathVariable("flightNumber") Integer flightNumber,@RequestParam("block")boolean block){
 		System.out.println(flightNumber);
 		System.out.println(block);
 		
