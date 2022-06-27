@@ -11,7 +11,7 @@ public interface IBookFlight {
 	
 	List<BookFlight> getAllBookFlight();
 	
-	void cancelBookFlight(Integer id);
+	 void getdeleteByPnr(Integer id);
 	
 	List<BookFlight> getBypnr(Integer pnr);
 	

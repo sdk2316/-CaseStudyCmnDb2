@@ -28,13 +28,13 @@ public class BookFlightImpl implements IBookFlight{
 	}
 
 	@Override
-	public void cancelBookFlight(Integer id) {
+	public void getdeleteByPnr(Integer pnr) {
 		
 		try {
-			 bookFlightRepo.deleteById(id);
+			bookFlightRepo.deleteByPnr(pnr);
 		} catch (Exception e) {
 			// TODO: handle exception
-			throw new PnrNotFoundException("PNT Not Found "+id);
+			throw new PnrNotFoundException("PNT Not Found "+pnr);
 		}
 		
 	}

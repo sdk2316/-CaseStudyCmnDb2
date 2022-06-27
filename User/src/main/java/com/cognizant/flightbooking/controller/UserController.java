@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cognizant.flightbooking.entity.AddFlightDetails;
 import com.cognizant.flightbooking.entity.BookFlight;
 import com.cognizant.flightbooking.exception.EmailIdNotFoundException;
-import com.cognizant.flightbooking.exception.FillCompleteFormException;
 import com.cognizant.flightbooking.exception.PnrNotFoundException;
 import com.cognizant.flightbooking.exception.ResourceNotFoundException;
 import com.cognizant.flightbooking.payload.UserInfo;
@@ -136,11 +136,12 @@ public class UserController {
 	}
 
 	@DeleteMapping("/getCancelByPnr/{pnr}")
-	public ResponseEntity<String> getCancelByPnr(@PathVariable Integer pnr) {
+	public ResponseEntity<String> getCancelByPnr(@PathVariable("pnr") Integer pnr) {
 
 		ResponseEntity<String> resp = null;
 		try {
-			bookFlights.cancelBookFlight(pnr);
+			 bookFlights.getdeleteByPnr(pnr);
+			
 			resp = ResponseEntity.ok("Fligh Ticket Cancel Succesfully With PNR  " + pnr);
 		} catch (Exception e) {
 			resp = new ResponseEntity<String>("This PNR number not exist ", HttpStatus.NOT_FOUND);
