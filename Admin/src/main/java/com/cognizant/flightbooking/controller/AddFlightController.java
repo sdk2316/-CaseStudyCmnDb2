@@ -60,7 +60,9 @@ public class AddFlightController {
 					HttpStatus.CREATED);
 
 		} catch (Exception e) {
-			resp = new ResponseEntity<String>("Unable to process addFlight, flight number is already present "+addFlight.getFlightNumber(), HttpStatus.INTERNAL_SERVER_ERROR);
+			resp = new ResponseEntity<String>(
+					"Unable to process addFlight, flight number is already present " + addFlight.getFlightNumber(),
+					HttpStatus.INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
 		}
 		return resp;
@@ -85,45 +87,43 @@ public class AddFlightController {
 	}
 
 	// 3 para meter
-		// http://localhost:9094/search/ZAB/DEL/2022-06-16
+	// http://localhost:9094/search/ZAB/DEL/2022-06-16
 	// http://localhost:9094/search/{fromPlace}/{toPlace}/{startDate}
-		@GetMapping("/search/{fromPlace}/{toPlace}/{startDate}")
-		public List<?> findByfromPlaceAndtoPlace(@PathVariable("fromPlace") String fromPlace,
-				@PathVariable("toPlace") String toPlace,@PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate) {
-			List<AddFlightDetails> fromPlaceAndtoPlace = null;
+	@GetMapping("/search/{fromPlace}/{toPlace}/{startDate}")
+	public List<?> findByfromPlaceAndtoPlace(@PathVariable("fromPlace") String fromPlace,
+			@PathVariable("toPlace") String toPlace,
+			@PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate) {
+		List<AddFlightDetails> fromPlaceAndtoPlace = null;
 
-			try {
-				if (fromPlace != null && toPlace != null) {
-					fromPlaceAndtoPlace = flightService.searchFlight(fromPlace, toPlace,startDate);
-					if (fromPlaceAndtoPlace.size() == 0) {
-						throw new ResourceNotFoundException();
-					}
-					System.out.println(fromPlaceAndtoPlace);
-
-					return fromPlaceAndtoPlace;
-				} else {
-					throw new ResourceNotFoundException(
-							"Unable to fetch resource from " + fromPlace + " toPlace " + toPlace + " journeyDate "+startDate);
+		try {
+			if (fromPlace != null && toPlace != null) {
+				fromPlaceAndtoPlace = flightService.searchFlight(fromPlace, toPlace, startDate);
+				if (fromPlaceAndtoPlace.size() == 0) {
+					throw new ResourceNotFoundException();
 				}
+				System.out.println(fromPlaceAndtoPlace);
 
-			} catch (Exception e) {
-				e.printStackTrace();
-
-				throw new ResourceNotFoundException("Unable to fetch resource from " + fromPlace + " toPlace " + toPlace + " journeyDate "+startDate);
-
+				return fromPlaceAndtoPlace;
+			} else {
+				throw new ResourceNotFoundException("Unable to fetch resource from " + fromPlace + " toPlace " + toPlace
+						+ " journeyDate " + startDate);
 			}
 
-			// return fromPlaceAndtoPlace;
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			throw new ResourceNotFoundException(
+					"Unable to fetch resource from " + fromPlace + " toPlace " + toPlace + " journeyDate " + startDate);
 
 		}
-	
-	
 
-	
+		// return fromPlaceAndtoPlace;
+
+	}
 
 	// http://localhost:9094/flightsByName/UK Airline
 	// done
-	//@GetMapping("/flightsByName/{flightName}")
+	// @GetMapping("/flightsByName/{flightName}")
 
 	public ResponseEntity<?> getFlightByName(@PathVariable("flightName") String flightName) {
 
@@ -144,7 +144,7 @@ public class AddFlightController {
 	}
 
 	// http://localhost:9094/getFlightsByNumber?flightNumber=A233
-	
+
 	// done
 
 	@GetMapping("/getFlightsByNumber/{flightNumber}")
@@ -174,12 +174,12 @@ public class AddFlightController {
 		ResponseEntity<?> resp = null;
 		try {
 
-			//flightService.deleteFlightById(flightNumber);
-			//resp = ResponseEntity.ok("Flight Deleted with flightNumber " + flightNumber);
+			// flightService.deleteFlightById(flightNumber);
+			// resp = ResponseEntity.ok("Flight Deleted with flightNumber " + flightNumber);
 			flightService.deleteFlightById(flightNumber);
-			Map<String,Boolean> response=new HashMap<>();
-			response.put("Flight Deleted with flightNumber"+flightNumber, Boolean.TRUE);
-			//resp = ResponseEntity.ok("Flight Deleted with flightNumber " + flightNumber);
+			Map<String, Boolean> response = new HashMap<>();
+			response.put("Flight Deleted with flightNumber" + flightNumber, Boolean.TRUE);
+			// resp = ResponseEntity.ok("Flight Deleted with flightNumber " + flightNumber);
 			resp = ResponseEntity.ok(response);
 
 		} catch (Exception e) {
@@ -191,7 +191,6 @@ public class AddFlightController {
 		return resp;
 	}
 
-
 	// http://localhost:9092/updateFlight/SA33
 	// done
 	@PutMapping("/updateFlight/{flightNumber}")
@@ -200,14 +199,13 @@ public class AddFlightController {
 
 		ResponseEntity<?> resp = null;
 
-		
-
 		System.out.println(flightNumber);
 		System.out.println(addFlight);
 		try {
 			Integer updateFlight = flightService.updateFlight(addFlight, flightNumber);
-			//return ResponseEntity.ok(" Flight Updated with flightNumber " + flightNumber);
-			resp= new ResponseEntity<AddFlightDetails>(HttpStatus.OK);
+			// return ResponseEntity.ok(" Flight Updated with flightNumber " +
+			// flightNumber);
+			resp = new ResponseEntity<AddFlightDetails>(HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			resp = new ResponseEntity<String>(" Flight record not exist with flightNumber " + flightNumber,
@@ -215,17 +213,17 @@ public class AddFlightController {
 		}
 		return resp;
 	}
-	
-	//block flight
+
+	// block flight
 	@PutMapping("/blockFlight/{flightNumber}")
-	public ResponseEntity<?> blockFlight(@PathVariable("flightNumber") Integer flightNumber,@RequestParam("block")boolean block){
+	public ResponseEntity<?> blockFlight(@PathVariable("flightNumber") Integer flightNumber,
+			@RequestParam("block") boolean block) {
 		System.out.println(flightNumber);
 		System.out.println(block);
-		
-		
-	return new ResponseEntity<String>(flightService.blockAirline(flightNumber, block)+" record updated to "+block, HttpStatus.CREATED);
 
-		
+		return new ResponseEntity<String>(
+				flightService.blockAirline(flightNumber, block) + " record updated to " + block, HttpStatus.CREATED);
+
 	}
 
 }
