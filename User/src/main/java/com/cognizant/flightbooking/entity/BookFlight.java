@@ -7,8 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 @Entity
 @Table(name="bookflight")
 public class BookFlight {
@@ -20,20 +21,35 @@ public class BookFlight {
 	
 	private Integer pnr=  new Random().nextInt(99999999);
 	
+	@NotBlank
+	@Size(max = 20)
 	private String userFirstName;
 
+	@NotBlank
+	@Size(max = 10)
 	private String userLastName;
-
+	
+	
+	@NotBlank
+	@Size(max = 50)
+	@Email
 	private String email;
 	
+	@NotBlank
 	private String gender;
-
+	
+	@Size(min=1,max = 3)
 	private Integer age;
 
+	@NotBlank
+	@Size(max = 99)
 	private String seat;
 	
+	@NotBlank
 	private String meal;
 	
+	@NotBlank
+	@Size(max = 50)
 	private String address;
 
 	public BookFlight() {

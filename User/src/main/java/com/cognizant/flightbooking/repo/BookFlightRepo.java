@@ -19,8 +19,8 @@ public interface BookFlightRepo extends JpaRepository<BookFlight, Integer> {
 
 	@Modifying
 	@Transactional
-	@Query(value = "DELETE FROM BookFlight WHERE pnr = :pnr", nativeQuery = true)
-	Integer deleteByPnr(@Param("pnr") Integer pnr);
+	@Query(value = "DELETE FROM BookFlight WHERE pnr=:pnr")
+	Integer deleteByPnr( Integer pnr);
 	
 
 }

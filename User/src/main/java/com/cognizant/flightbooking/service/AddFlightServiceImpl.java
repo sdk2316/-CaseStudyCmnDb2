@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cognizant.flightbooking.entity.AddFlightDetails;
-import com.cognizant.flightbooking.exception.ResourceNotFoundException;
 import com.cognizant.flightbooking.repo.AddFlightRepository;
 
 @Service
