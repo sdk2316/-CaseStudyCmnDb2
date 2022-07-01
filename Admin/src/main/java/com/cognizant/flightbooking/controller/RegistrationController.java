@@ -20,34 +20,34 @@ public class RegistrationController {
 	private RegistraionService registraionService;
 
 	@PostMapping("/admin/registeration")
-	public String registerAdmin(@RequestBody AdminEntity adminEntity) throws Exception {
+	public AdminEntity registerAdmin(@RequestBody AdminEntity adminEntity) throws Exception {
 		String tempEmailId = adminEntity.getEmailId();
 		if (tempEmailId != null && !"".equals(tempEmailId)) {
 			AdminEntity adminObj = registraionService.getUserByEmailId(tempEmailId);
 
 			if (adminObj != null) {
-				return "Admin with " + tempEmailId + " is already exit";
+				throw new Exception("Admin with " + tempEmailId + " is already exit");
 			}
 
 		}
-		 registraionService.saveAdmin(adminEntity);
-		return "Registraion successful...";
+		AdminEntity admin = registraionService.saveAdmin(adminEntity);
+		return admin;
 	}
-	
-	@GetMapping("/admin/login/{emailId}/{password}")
-	public String loginAdmin(@PathVariable String emailId,@PathVariable String password) throws Exception {
-		
-		
-			try {
-				 registraionService.getUserByEmailIdAndPassword(emailId, password);
-			} catch (UserNotFoundException e) {
-				// TODO: handle exception
-				throw new UserNotFoundException();
-			}
-		
-		
-		return "Login Success";
+	@PostMapping("/admin/login")
+	public AdminEntity loginAdmin(@RequestBody AdminEntity adminEntity) throws Exception {
+		String tempEmailId= adminEntity.getEmailId();
+		String tempPassword=adminEntity.getPassword();
+		AdminEntity adminObj=null;
+		if(tempEmailId !=null && tempPassword !=null) {
+			adminObj = registraionService.getUserByEmailIdAndPassword(tempEmailId, tempPassword);
+		}
+		if(adminObj == null) {
+			throw new Exception("Bad crendentials");
+			
+		}
+		return adminObj;
 		
 	}
+
 
 }
